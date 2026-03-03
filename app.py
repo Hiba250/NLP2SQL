@@ -1,15 +1,9 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify
 app = Flask(__name__)
 
-@app.route('/generate', methods=['POST'])
-def generate():
-    data = request.get_json()
-    q = data.get('question', '')
-    return jsonify({'sql': 'SELECT * FROM employees', 'confidence': 0.85, 'engine': 'transformer'})
-
-@app.route('/status')
-def status():
-    return jsonify({'model_loaded': False})
+@app.route('/examples')
+def examples():
+    return jsonify([{'question': 'Show all employees in Engineering', 'category': 'Basic'}, {'question': 'Count orders with status Shipped', 'category': 'Count'}, {'question': 'Average salary by department', 'category': 'GroupBy'}])
 
 @app.route('/')
 def index():
