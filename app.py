@@ -1,9 +1,6 @@
 from flask import Flask, jsonify
 app = Flask(__name__)
-
-@app.route('/examples')
-def examples():
-    return jsonify([{'question': 'Show all employees in Engineering', 'category': 'Basic'}, {'question': 'Count orders with status Shipped', 'category': 'Count'}, {'question': 'Average salary by department', 'category': 'GroupBy'}])
+SCHEMAS = {'employees': {'table': 'employees', 'columns': ['id','name','age','salary','department']}, 'products': {'table': 'products', 'columns': ['id','name','price','category']}, 'orders': {'table': 'orders', 'columns': ['id','customer_name','product_id','total_amount','status']}, 'students': {'table': 'students', 'columns': ['id','name','age','grade','gpa','major']}}
 
 @app.route('/')
 def index():
