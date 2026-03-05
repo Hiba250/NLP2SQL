@@ -1,9 +1,12 @@
 from flask import Flask, jsonify
+import logging
 app = Flask(__name__)
-SCHEMAS = {'employees': {'table': 'employees', 'columns': ['id','name','age','salary','department']}, 'products': {'table': 'products', 'columns': ['id','name','price','category']}, 'orders': {'table': 'orders', 'columns': ['id','customer_name','product_id','total_amount','status']}, 'students': {'table': 'students', 'columns': ['id','name','age','grade','gpa','major']}}
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 @app.route('/')
 def index():
+    logger.info('Index page hit')
     return 'NLP2SQL'
 
 if __name__ == '__main__':
