@@ -1,8 +1,11 @@
-import json
+import json, os
 
-def load_spider(data_dir):
-    with open(f'{data_dir}/train_spider.json') as f:
+def load_tables(data_dir):
+    with open(os.path.join(data_dir, 'tables.json')) as f:
         return json.load(f)
 
-def build_schema_string(table, columns):
-    return 'Table: ' + table + ' | Columns: ' + ', '.join(columns)
+def load_spider(data_dir):
+    tables = load_tables(data_dir)
+    with open(os.path.join(data_dir, 'train_spider.json')) as f:
+        train = json.load(f)
+    return train, tables
