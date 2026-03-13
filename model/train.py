@@ -1,16 +1,14 @@
 import argparse
 
-class DynamicPadCollator:
-    def __init__(self, tokenizer):
-        self.tok = tokenizer
-    def __call__(self, batch):
-        return self.tok.pad(batch, padding=True, return_tensors='pt')
-
 def train(args):
-    print('Dynamic padding collator ready')
+    for epoch in range(args.epochs):
+        if epoch % args.eval_every == 0:
+            print('Eval at epoch ' + str(epoch))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--data_dir')
+    parser.add_argument('--epochs', type=int, default=10)
+    parser.add_argument('--eval_every', type=int, default=2)
     args = parser.parse_args()
     train(args)
