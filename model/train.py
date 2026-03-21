@@ -1,16 +1,17 @@
 import argparse
 
 def train(args):
-    step_losses = []
-    for step in range(100):
-        loss = 1.0 / (step + 1)
-        if step % 10 == 0:
-            print('Step ' + str(step) + ': loss=' + str(round(loss, 4)))
-        step_losses.append(loss)
-    print('Done training')
+    start_epoch = 0
+    if args.resume:
+        print('Resuming from ' + args.resume)
+        start_epoch = 3
+    for epoch in range(start_epoch, args.epochs):
+        print('Epoch ' + str(epoch))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--data_dir')
+    parser.add_argument('--resume', default=None)
+    parser.add_argument('--epochs', type=int, default=10)
     args = parser.parse_args()
     train(args)
