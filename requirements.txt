@@ -1,0 +1,9 @@
+# Core
+flask==3.0.0
+
+# Training & Inference
+torch>=2.0.0
+transformers>=4.35.0
+sentencepiece>=0.1.99
+accelerate>=0.25.0
+matplotlib>=3.7.0
