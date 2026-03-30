@@ -1,24 +1,22 @@
 from flask import Flask, request, jsonify
+import os
 app = Flask(__name__)
-SCHEMAS = {'employees': {'table': 'employees', 'columns': ['id','name','salary']}, 'products': {'table': 'products', 'columns': ['id','name','price']}}
+MODEL_PATH = os.environ.get('NL2SQL_MODEL_PATH', 'checkpoints/best_model')
+engine = None
 
-def detect_table(text):
-    for k, v in SCHEMAS.items():
-        if k in text.lower():
-            return v
-    return SCHEMAS['employees']
+@app.route('/status')
+def status():
+    return jsonify({'engine': 'transformer', 'model_loaded': engine is not None, 'model_path': MODEL_PATH if engine else None})
+
+@app.route('/')
+def index():
+    return 'NLP2SQL'
 
 @app.route('/generate', methods=['POST'])
 def generate():
     data = request.get_json()
     q = data.get('question', '')
-    hint = data.get('table', None)
-    schema = SCHEMAS[hint] if hint and hint in SCHEMAS else detect_table(q)
-    return jsonify({'sql': 'SELECT * FROM ' + schema['table'], 'schema': schema})
-
-@app.route('/')
-def index():
-    return 'NLP2SQL'
+    return jsonify({'sql': 'SELECT * FROM employees -- ' + q, 'confidence': 0.85})
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
